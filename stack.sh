@@ -301,7 +301,8 @@ function _install_epel {
     cat <<EOF | sudo tee /etc/yum.repos.d/epel-bootstrap.repo
 [epel-bootstrap]
 name=Bootstrap EPEL
-mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-7&arch=\$basearch
+#mirrorlist=http://mirrors.ustc.edu.cn/epel/7/$basearch
+baseurl=http://mirrors.ustc.edu.cn/epel/7/$basearch
 failovermethod=priority
 enabled=0
 gpgcheck=0
@@ -384,7 +385,7 @@ fi
 # to speed things up
 SKIP_EPEL_INSTALL=$(trueorfalse False SKIP_EPEL_INSTALL)
 
-if [[ $DISTRO == "rhel7" ]]; then
+if [[ $DISTRO == "rhel7" &&  ! $SKIP_RDO ]]; then
     # If we have /etc/ci/mirror_info.sh assume we're on a OpenStack CI
     # node, where EPEL is installed (but disabled) and already
     # pointing at our internal mirror
